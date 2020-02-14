@@ -24,7 +24,7 @@ public class DeleteOperationsSteps {
         body.put("title", dataTable.raw().get(1).get(1));
         body.put("author", dataTable.raw().get(1).get(2));
 
-        RestAssuredExtension.postResourceParameter(url, body);
+        RestAssuredExtension.postResourceWithBody(url, body);
     }
 
     @And("^I perform DELETE operation for \"([^\"]*)\"$")
