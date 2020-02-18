@@ -9,6 +9,7 @@ import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNot;
+import pojo.Posts;
 import utils.RestAssuredExtension;
 
 import java.util.HashMap;
@@ -21,19 +22,18 @@ public class PostOperationsSteps {
 
     @Given("^I perform POST operation for \"([^\"]*)\" with body$")
     public void iPerformPOSTOperationForWithBody(String url, DataTable dataTable) {
-        Map<String, String> pathParam = new HashMap<>();
-        pathParam.put("profileNo", dataTable.raw().get(1).get(1));
-
         Map<String, String> body = new HashMap<>();
-        body.put("name", dataTable.raw().get(1).get(0));
-        body.put("profileNo", dataTable.raw().get(1).get(1));
+        body.put("id", dataTable.raw().get(1).get(0));
+        body.put("title", dataTable.raw().get(1).get(1));
+        body.put("author", dataTable.raw().get(1).get(2));
 
-        response = RestAssuredExtension.postResourceWithPathParameter(url, pathParam, body);
+        response = RestAssuredExtension.postResourceWithBody(url, body);
     }
 
-    @Then("^I should see the body has name as \"([^\"]*)\"$")
-    public void iShouldNotSeeTheBodyWithTitleAs(String name) {
-        assertThat(response.getBody().jsonPath().get("name"), Is.is(name));
+    @Then("^I should see the body has author as \"([^\"]*)\"$")
+    public void iShouldNotSeeTheBodyWithAuthorAs(String author) {
+        Posts posts = response.getBody().as(Posts.class);
+        assertThat(posts.getAuthor(), Is.is(author));
     }
 
 
@@ -68,7 +68,7 @@ public class PostOperationsSteps {
     public void iPerformGETOperationWith(String url, DataTable dataTable) {
         Map<String, String> pathParam = new HashMap<>();
         pathParam.put("postId", dataTable.raw().get(1).get(0));
-        
+
         response = RestAssuredExtension.getResourceWithPathParameter(url, pathParam);
     }
 }
