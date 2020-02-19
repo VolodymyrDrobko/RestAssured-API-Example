@@ -3,6 +3,7 @@ package utils;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.RequestSpecification;
@@ -22,6 +23,11 @@ public class RestAssuredExtension {
     //GET
     public static ResponseOptions<Response> getResourceWithPathParameter(String url, Map<String, String> pathParameter) {
         request.pathParams(pathParameter);
+        return request.get(url);
+    }
+
+    public static ResponseOptions<Response> getResourceWithQueryParameter(String url, Map<String, String> queryParameters) {
+        request.queryParams(queryParameters);
         return request.get(url);
     }
 
