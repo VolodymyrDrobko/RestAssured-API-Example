@@ -1,6 +1,7 @@
 target
 Reports
 .idea
+logs
 src/main/resources/exe
 *.iml
 test_data/*
